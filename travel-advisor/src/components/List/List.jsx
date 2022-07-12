@@ -13,7 +13,7 @@ const List = () => {
     const places = [
         { name: "Cool Place" },
         { name: "Best Beer" },
-        { name: "Best Steak" }
+        { name: "Best Steak" },
     ]
 
     return (
@@ -37,11 +37,11 @@ const List = () => {
                 </Select>
             </FormControl>
             <Grid container spacing={3} className={classes.list} >
-                {places?.map((place, i) => {
+                {places?.map((place, i) => (
                     <Grid item key={i} xs={12}>
                         <PlaceDetails place={place} />
                     </Grid>
-                })}
+                ))}
             </Grid>
         </div>
     );
