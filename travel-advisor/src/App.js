@@ -9,9 +9,12 @@ import Map from './components/Map/Map';
 
 const App = () => {
   const [places, setPlaces] = useState([]);
+  const [childClick, setChildClick] = useState(null);
+
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
   const [bounds, setBounds] = useState({ sw: 0, ne: 0 });
-  const [childClick, setChildClick] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -20,9 +23,11 @@ const App = () => {
   }, [])
 
   useEffect(() => {
+    setIsLoading(true);
     getPlacesData(bounds.sw, bounds.ne)
       .then((data) => {
         setPlaces(data);
+        setIsLoading(false);
       })
   }, [coordinates, bounds]);
 
@@ -35,6 +40,7 @@ const App = () => {
           <List
             places={places}
             childClick={childClick}
+            isLoading={isLoading}
           />
         </Grid>
         <Grid item xs={12} md={8}>
