@@ -5,7 +5,7 @@ import Rating from "@material-ui/lab";
 
 import useStyles from "./styles";
 
-const Map = ({ setCoordinates, coordinates, setBounds, bounds }) => {
+const Map = ({ setCoordinates, coordinates, setBounds, places }) => {
     const classes = useStyles();
     const isMobile = useMediaQuery("(min-width:600px)");
 
@@ -23,6 +23,32 @@ const Map = ({ setCoordinates, coordinates, setBounds, bounds }) => {
                     setBounds({ sw: e.marginBounds.sw, ne: e.marginBounds.ne, });
                 }}
             >
+                {
+                    places?.map((place, i) => (
+                        <div
+                            className={classes.markerContainer}
+                            lat={Number(place.latitude)}
+                            lng={Number(place.longitude)}
+                            key={i}
+                        >
+                            {
+                                isMobile ? (
+                                    <LocationOnOutlinedIcon color="primary" fontSize="large" />
+                                ) : (
+                                    <Paper elevation={3} className={classes.paper}>
+                                        <Typography className={classes.typography} variant="subtitle2" gutterBottom>
+                                            {place.name}
+                                        </Typography>
+                                        <img
+                                            src={place.photo ? place.photo.images.large.url : "https://cdn-icons-png.flaticon.com/512/1377/1377194.png"}
+                                            alt={place.name}
+                                            className={classes.pointer} />
+                                    </Paper>
+                                )
+                            }
+                        </div>
+                    ))
+                }
             </GoogleMapReact>
         </div>
     );
